@@ -1,2 +1,2 @@
 # BancoDeDados
-Atividades de banco de dados do Senai
+Atividades de banco de dados 
