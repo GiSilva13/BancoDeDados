@@ -1,0 +1,217 @@
+
+-- CRIANDO TABELAS
+
+DROP TABLE "tb_cliente";
+
+CREATE TABLE "tb_cliente" (
+	"cliente_id"	INTEGER,
+	"nome"	TEXT NOT NULL,
+	"cnh"	TEXT NOT NULL,
+	"telefone"	TEXT NOT NULL,
+	PRIMARY KEY("cliente_id" AUTOINCREMENT)
+);
+
+DROP TABLE "tb_veiculo";
+
+CREATE TABLE "tb_veiculo"(
+	"veiculo_id" INTEGER,
+	"modelo" TEXT NOT NULL,
+	"ano" INTEGER NOT NULL,
+	"placa" TEXT NOT NULL,
+	"disponibilidade" TEXT NOT NULL,
+	
+	
+	PRIMARY KEY ("veiculo_id" AUTOINCREMENT)
+);
+
+DROP TABLE "tb_aluguel";
+
+CREATE TABLE "tb_aluguel"(
+	"aluguel_id" INTEGER,
+	"cliente_id" INTEGER NOT NULL,
+	"veiculo_id" INTEGER NOT NULL,
+	"data_inicio" TEXT NOT NULL,
+	"data_final" TEXT NOT NULL,
+	PRIMARY KEY ("aluguel_id" AUTOINCREMENT),
+	FOREIGN KEY ("cliente_id") REFERENCES tb_cliente ("cliente_id"),
+	FOREIGN KEY ("veiculo_id") REFERENCES tb_veiculo ("veiculo_id")
+	
+);
+
+
+
+
+-- INSERÇÃO DE DADOS
+
+INSERT INTO "tb_cliente" (nome, cnh, telefone) 
+VALUES
+	('Giovanna Silva', '536636772323', '98908-4567'),
+	('João Silva', '574318906423', '98908-4567'),
+	('Maria Oliveira', '546543421678', '98908-4567'),
+	('Maria Banana', '907532167804', '97839-4589'),
+	('Miriã Oliveira', '564321789098', '98839-4890'),
+	('Gabriela Fernandez', '350053214567', '94569-8902'),
+	('Henrique Lima', '900056432167', '98908-8908'),
+	('Bruno Costa', '000056789654', '97667-8907');
+
+INSERT INTO "tb_veiculo" (modelo, ano, placa, disponibilidade) 
+VALUES
+	('Fiat Uno', 2015, 'ABC-1234', 'disponivel'),
+	('Volkswagen Gol', 2018, 'RTE-3456', 'disponivel'),
+	('Ford k', 2019, 'GTD-6789', 'disponivel'),
+	('Chevrolet', 2020, 'DFR-4902', 'alugado'),
+	('Honda Civic', 2017, 'HJU-4560', 'disponivel'),
+	('Toyota Corolla', 2021, 'GHT-5678', 'alugado'),
+	('Hyundai HB20', 2022, 'DFR-5678', 'disponivel'),
+	('Renault Sandero', 2016, 'SDF-5346','disponivel');
+
+
+	INSERT INTO "tb_aluguel" (cliente_id, veiculo_id , data_inicio , data_final) 
+VALUES
+	
+	(1, 2, '2023-09-01', '2023-09-10'),
+	(2, 3,'2023-09-03', '2023-09-17'),
+	(3, 4,'2023-09-05', '2023-09-20'),
+	(4, 5, '2023-09-05', '2023-09-05'),
+	(5, 6, '2023-09-10', '2023-09-24'),
+	(7, 8, '2023-10-01', '2023-10-05'),
+	(8, 7, '2023-10-13','2023-10-16');
+
+-- CONSULTA DE DADOS
+
+SELECT * FROM tb_cliente WHERE telefone = "98908-8908";
+
+SELECT * FROM tb_cliente WHERE cnh = "536636772323";
+
+SELECT nome, cnh FROM tb_cliente;
+
+SELECT * FROM tb_veiculo WHERE ano = 2020;
+
+SELECT * FROM tb_veiculo WHERE veiculo_id = 8;
+
+SELECT * FROM tb_veiculo WHERE disponibilidade = "disponivel";
+
+--INNER JOIN
+
+SELECT
+	tb_cliente.nome,
+	tb_cliente.cnh,
+	tb_veiculo.modelo,
+	tb_veiculo.placa,
+	tb_veiculo.disponibilidade,
+	tb_aluguel.aluguel_id,
+	tb_aluguel.data_inicio,
+	tb_aluguel.data_final
+FROM
+	tb_aluguel
+INNER JOIN
+	tb_cliente ON tb_cliente.cliente_id = tb_aluguel.cliente_id
+INNER JOIN
+	tb_veiculo ON tb_veiculo.veiculo_id = tb_aluguel.veiculo_id
+
+
+SELECT
+	tb_cliente.nome,
+	tb_cliente.cnh,
+	tb_veiculo.modelo,
+	tb_veiculo.placa,
+	tb_veiculo.disponibilidade,
+	tb_aluguel.aluguel_id,
+	tb_aluguel.data_inicio,
+	tb_aluguel.data_final
+FROM
+	tb_aluguel
+INNER JOIN
+	tb_cliente ON tb_cliente.cliente_id = tb_aluguel.cliente_id
+INNER JOIN
+	tb_veiculo ON tb_veiculo.veiculo_id = tb_aluguel.veiculo_id
+	
+	WHERE 
+	tb_veiculo.disponibilidade = "disponivel";
+
+SELECT
+	tb_cliente.nome,
+	tb_cliente.cnh,
+	tb_veiculo.modelo,
+	tb_veiculo.placa,
+	tb_veiculo.disponibilidade,
+	tb_aluguel.aluguel_id,
+	tb_aluguel.data_inicio,
+	tb_aluguel.data_final
+FROM
+	tb_aluguel
+INNER JOIN
+	tb_cliente ON tb_cliente.cliente_id = tb_aluguel.cliente_id
+INNER JOIN
+	tb_veiculo ON tb_veiculo.veiculo_id = tb_aluguel.veiculo_id
+	
+	WHERE 
+	tb_veiculo.disponibilidade = "alugado";
+
+---Alteração
+
+	UPDATE tb_cliente
+	SET telefone = '9999999'
+	WHERE cliente_id = 5;
+	
+	UPDATE tb_cliente
+	SET nome = 'Camilla Ferreira'
+	WHERE cliente_id = 8;
+	
+	UPDATE tb_cliente
+	SET cnh = 'Camilla Ferreira'
+	WHERE cliente_id = 8;
+	
+	UPDATE tb_cliente
+	SET nome = 'Gaby Ferreira'
+	WHERE cliente_id = 2;
+	
+	UPDATE tb_cliente
+	SET nome = 'Rafaella Ferreira'
+	WHERE cliente_id = 1;
+
+	UPDATE tb_veiculo
+	SET ano = '2020'
+	WHERE veiculo_id = 1;
+	
+	UPDATE tb_veiculo
+	SET ano = '2017'
+	WHERE veiculo_id = 2;
+	
+	UPDATE tb_veiculo
+	SET ano = '2018'
+	WHERE veiculo_id = 3
+	
+	UPDATE tb_veiculo
+	SET ano = '2016'
+	WHERE veiculo_id = 4;
+	
+	UPDATE tb_veiculo
+	SET ano = '2021'
+	WHERE veiculo_id = 5;
+
+	UPDATE tb_aluguel
+	SET data_inicio = '2020/05/23'
+	WHERE aluguel_id = 1;
+
+	UPDATE tb_aluguel
+	SET data_inicio = '2018/08/10'
+	WHERE aluguel_id = 2;
+	
+	UPDATE tb_aluguel
+	SET data_inicio = '2016/02/19'
+	WHERE aluguel_id = 3;
+	
+	UPDATE tb_aluguel
+	SET data_inicio = '2014/12/27'
+	WHERE aluguel_id = 4;
+	
+	UPDATE tb_aluguel
+	SET data_inicio = '2019/10/02'
+	WHERE aluguel_id = 5;
+	
+	 
+
+
+
+

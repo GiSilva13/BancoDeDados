@@ -1,0 +1,278 @@
+criação de tabela
+
+CREATE TABLE "tb_produtos" (
+	"produto_id"	INTEGER,
+	"nome"	TEXT NOT NULL,
+	"tipo"	TEXT NOT NULL,
+	"preco"	REAL NOT NULL,
+	"descricao" TEXT NOT NULL,
+
+	PRIMARY KEY("produto_id" AUTOINCREMENT)
+);
+
+CREATE TABLE "tb_mesas" (
+	"mesa_id"	INTEGER,
+	"numero"	INTEGER NOT NULL,
+	"capacidade" INTEGER NOT NULL,
+	
+
+	PRIMARY KEY("mesa_id" AUTOINCREMENT)
+);
+
+CREATE TABLE "tb_pedido"(
+	"pedido_id" INTEGER,
+	"mesa_id" INTEGER NOT NULL,
+	"produto_id" INTEGER NOT NULL,
+	"quantidade" INTEGER NOT NULL,
+	"total" REAL NOT NULL,
+	"cliente_id" INTEGER NOT NULL,
+	PRIMARY KEY ("pedido_id" AUTOINCREMENT),
+	FOREIGN KEY ("mesa_id") REFERENCES tb_mesas ("mesa_id"),
+	FOREIGN KEY ("produto_id") REFER,ENCES tb_produtos ("produto_id"),
+	FOREIGN KEY ("cliente_id") REFERENCES tb_cliente ("cliente_id")
+
+	
+);
+	
+
+
+CREATE TABLE "tb_cliente"(
+	"cliente_id" INTEGER,
+	"nome" TEXT NOT NULL,
+	"telefone" TEXT NOT NULL,
+	"email" TEXT NOT NULL,
+	
+	PRIMARY KEY ("cliente_id" AUTOINCREMENT)
+	
+	
+);
+
+inserir dados
+
+INSERT INTO "tb_produtos" (nome, tipo, preco, descricao) 
+VALUES
+	("Bacalhau as Natas", "prato principal", "R$ 80,00"," Bacalhau com nata" ),
+	("Frango Marroquino/Coca-cola", "bebida/prato principal", "R$ 75,00," Combo de Frango Marroquino com Coca-cola" ),
+	("Bolo de Chocolate", "Sobremesa", "R$ 20,00," Bolo com massa de chocolate" ),
+	("Sprit", "bebida", "R$ 5,00," Refrigerante" ),
+	("Herissé", "prato principal", "R$ 45,00", "Herissé" ),
+	("bolo de festa", "sobremesa", "R$ R$ 15,00", "bolo de festa" ),
+	('Torta de Frango', 'prato principal', 'R$ 120,00', 'Torta de Frango'),
+	('Frango Oriental', 'prato principal', 'R$ 60,00', 'Frango Oriental'),
+	('Frango Marroquino', 'prato principal', 'R$ 60,00', 'Frango Marroquino'),
+	('Coca-Cola', 'bebida', 'R$ 6,00', 'Coca-Cola');
+
+
+INSERT INTO "tb_mesas" (numero, capacidade) 
+VALUES
+	(1, 5),
+	(2, 4),
+	(3,6),
+	(4,2),
+	(5,5),
+	(6,4),
+	(7,5),
+	(8,4),
+	(9,4),
+	(10,4);
+
+INSERT INTO "tb_cliente" ( nome, telefone, email)
+VALUES
+	('Giovanna Ferreira' , '12345-6789', 'queijo@gmail.com'),
+	('Ana Luiza' , '98765 - 4321', 'presunto@gmail.com'),
+	('Catarina', '88997-7665', 'frango@gmail.com'),
+	('Geovanna Campos' , '11111-1111', 'lasanha@gmail.com'),
+	('Estela' , '22222-2222', 'strogonoff@gmail.com'),
+	('Denis Holanda' , '33333-3333', 'chocolate@gmail.com'),
+	('Amanda Ferreira' , '44444-4444', 'macarrao@gmail.com'),
+	('Suellen Ferreira' , '55555-5555', 'pastel@gmail.com'),
+	('Samantha Alves' , '66666-6666', 'canjica@gmail.com'),
+	('Rafel Gino' , '77777-7777', 'pizza@gmail.com');
+
+INSERT INTO "tb_pedido" ( pedido_id, mesa_id, produto_id, cliente_id, quantidade, total)
+VALUES
+	(1,1,1,7,2,'R$160,00'),
+	(2,2,2,1,1,'R$75,00'),
+	(3,3,3,2,3,'R$20,00'),
+	(4,4,4,5,2,'R$10,00'),
+	(5,5,5,7,1,'R$45,00'),
+	(6,6,6,8,3,'R$45,00'),
+	(7,7,7,3,2,'R$240,00'),
+	(8,8,8,9,1,'R$60,00'),
+	(9,9,9,10,3,'R$180,00'),
+	(10,10,10,4,2,'R$180,00');
+
+consultar dados
+
+SELECT * FROM tb_produtos WHERE tipo = "prato principal";
+
+SELECT * FROM tb_mesas WHERE numero = 10;
+
+SELECT nome, tipo, preco FROM tb_produtos;
+
+SELECT capacidade FROM tb_mesas;
+
+SELECT * FROM tb_mesas WHERE capacidade > 6
+
+
+inner join
+
+SELECT
+	tb_produtos.nome,
+	tb_produtos.tipo,
+	tb_produtos.preco,
+	tb_mesas.numero,
+	tb_mesas.capacidade,
+	tb_pedido.pedido_id,
+	tb_pedido.quantidade,
+	tb_pedido.total
+	
+	FROM
+	 tb_pedido
+	
+	INNER JOIN
+	tb_produtos ON tb_pedido.produto_id = tb_produtos.produto_id
+	INNER JOIN
+	tb_mesas ON tb_pedido.mesa_id = tb_mesas.mesa_id;
+
+	SELECT
+	tb_produtos.nome,
+	tb_produtos.tipo,
+	tb_produtos.preco,
+	tb_mesas.numero,
+	tb_mesas.capacidade,
+	tb_pedido.pedido_id,
+	tb_pedido.quantidade,
+	tb_pedido.total
+	
+	FROM
+	 tb_pedido
+	
+	INNER JOIN
+	tb_produtos ON tb_pedido.produto_id = tb_produtos.produto_id
+	INNER JOIN
+	tb_mesas ON tb_pedido.mesa_id = tb_mesas.mesa_id
+	
+	WHERE 
+	
+	tb_pedido.total = 'R$75,00';
+	
+
+SELECT
+	tb_produtos.nome,
+	tb_produtos.tipo,
+	tb_produtos.preco,
+	tb_mesas.numero,
+	tb_mesas.capacidade,
+	tb_pedido.pedido_id,
+	tb_pedido.quantidade,
+	tb_pedido.total
+	
+	FROM
+	 tb_pedido
+	
+	INNER JOIN
+	tb_produtos ON tb_pedido.produto_id = tb_produtos.produto_id
+	INNER JOIN
+	tb_mesas ON tb_pedido.mesa_id = tb_mesas.mesa_id
+	
+	WHERE 
+	
+	tb_pedido.total > 'R$20,00';
+
+alteração
+
+UPDATE tb_produtos
+	SET preco = 'R$ 10,00'
+	WHERE produto_id = 4;
+
+UPDATE tb_produtos
+	SET nome = 'Lasanha'
+	WHERE produto_id = 4;
+
+UPDATE tb_produtos
+	SET preco = 'R$ 100,00 '
+	WHERE produto_id = 7;
+
+UPDATE tb_produtos
+	SET preco = 'R$ 50,00 '
+	WHERE produto_id = 5;
+
+UPDATE tb_produtos
+	SET preco = 'R$ 100,00 '
+	WHERE produto_id = 1;
+
+
+
+UPDATE tb_mesas
+	SET numero = 2
+	WHERE mesa_id = 1;
+
+UPDATE tb_mesas
+	SET numero = 9
+	WHERE mesa_id = 3;
+
+UPDATE tb_mesas
+	SET numero = 10
+	WHERE mesa_id = 7;
+
+UPDATE tb_mesas
+	SET numero = 2
+	WHERE mesa_id = 8;
+
+UPDATE tb_mesas
+	SET numero = 5
+	WHERE mesa_id = 6;
+
+exclusões 
+DELETE FROM tb_pedido WHERE quantidade = 2;
+DELETE FROM tb_pedido WHERE pedido_id = 2;
+DELETE FROM tb_pedido WHERE mesa_id = 5;
+DELETE FROM tb_pedido WHERE produto_id = 6;
+DELETE FROM tb_pedido WHERE cliente_id = 8; 
+
+---comandos------
+
+Order By
+SELECT * FROM tb_cliente ORDER BY nome ASC;
+
+Between
+SELECT * FROM tb_produtos WHERE produto_id BETWEEN 3 AND 9;
+
+Sum
+SELECT sum(capacidade) AS "O valor total da capacidade das mesas" FROM tb_mesas;
+
+Count 
+SELECT count('tb_pedido') FROM tb_produtos WHERE tipo = 'bebida' OR tipo = 'prato principal' OR tipo = 'Sobremesa';
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+	
+	
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
